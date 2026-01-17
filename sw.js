@@ -1,43 +1,43 @@
-const CACHE_NAME = "tcg-cards-maker-v1";
+const CACHE_NAME = "tcg-cards-maker-v2";
+
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./image.png",
-  "https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js",
-  "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+  "./image.png"
 ];
 
-// Instalación del Service Worker
-self.addEventListener("install", e => {
-  self.skipWaiting();
-});
-{
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
+// INSTALACIÓN
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(ASSETS);
     })
   );
+  self.skipWaiting();
 });
 
-// Activación y limpieza de cachés viejos
-self.addEventListener("activate", (e) => {
-  e.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) return caches.delete(key);
+// ACTIVACIÓN
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
         })
-      );
-    })
+      )
+    )
   );
+  self.clients.claim();
 });
 
-// Estrategia: Cache First (Responder desde caché, si no existe, ir a internet)
-self.addEventListener("fetch", (e) => {
-  e.respondWith(
-    caches.match(e.request).then((res) => {
-      return res || fetch(e.request);
+// FETCH (Cache First)
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
     })
   );
 });
