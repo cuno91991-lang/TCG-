@@ -7,8 +7,7 @@
     <meta name="theme-color" content="#1a1a1a">
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Times+New+Roman&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <link rel="manifest" href="manifest.json"> <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
@@ -19,9 +18,10 @@
         font-style: normal;
     }
 
-    <link rel="manifest" href="manifest.json">
-
-
+    @font-face {
+        font-family: 'MatrixBook';
+        src: url('matrixregularsmallcaps.ttf') format('truetype'); 
+    }
         :root {
             --card-width: 226px;
             --card-height: 340px;
@@ -224,31 +224,26 @@
         }
 
         .gold-text-effect {
-          background: linear-gradient(
-          180deg,
-          #5c3a00 0%,
-          #b8860b 20%,
-          #ffd700 35%,
-          #fff1a8 50%,
-          #ffd000 65%,
-          #b8860b 80%,
-          #5c3a00 100%
-          );
-
-          .gold-text-effect.animate {
-          background-position: 100% 0;
+            background: linear-gradient(
+                180deg,
+                #5c3a00 0%,
+                #b8860b 20%,
+                #ffd700 35%,
+                #fff1a8 50%,
+                #ffd000 65%,
+                #b8860b 80%,
+                #5c3a00 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            text-shadow: 0 1px 1px rgba(92, 58, 0, 0.5); /* Corregido sintaxis rgba */
+            font-weight: 900;
         }
-
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          color: transparent;
-
-          text-shadow:
-          0 1px 1px rgba(#5c3a00),
-          0 1px 2px rgba(#b8860b);
-
-          font-weight: 900;
+        
+        .gold-text-effect.animate {
+            background-position: 100% 0;
         }
 
          .detail-3d {
